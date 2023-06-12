@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Save URL to Todoist",
+  "version": "1.0",
+  "description": "Saves the current open URL as a task in Todoist",
+  "action": {
+    "default_title": "Save URL to Todoist",
+    "default_popup": "index.html"
+  }
+}
