@@ -65,7 +65,6 @@ function App() {
           <Button text="Connect to Todoist" eventHandler={handleConnectButtonClick} />
         )}
       </div>
-      <p>{token}</p>
     </main>
   );
 }
