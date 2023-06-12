@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@doist/todoist-api-typescript": "^2.1.2",
+    "@types/chrome": "^0.0.237",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
