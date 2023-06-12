@@ -52,6 +52,12 @@ function App() {
     setIsIntegrated(true);
   };
 
+  const handleLogoutButtonClick = () => {
+    chrome.cookies.remove({ url: 'https://saveurltodoist.vercel.app', name: 'token' });
+    setIsIntegrated(false);
+    setToken('');
+  };
+
   return (
     <main>
       <div className="w-72 p-5">
@@ -59,7 +65,14 @@ function App() {
           isSaving ? (
             <Button text="Saving..." isDisabled={true} />
           ) : (
-            <Button text="Save URL to Todoist" eventHandler={handleSaveButtonClick} isPrimary />
+            <div>
+              <div className="mb-3">
+                <Button text="Save URL to Todoist" eventHandler={handleSaveButtonClick} isPrimary />
+              </div>
+              <div>
+                <Button text="Logout" eventHandler={handleLogoutButtonClick} />
+              </div>
+            </div>
           )
         ) : (
           <Button text="Connect to Todoist" eventHandler={handleConnectButtonClick} />
