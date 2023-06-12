@@ -1,11 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TodoistApi } from '@doist/todoist-api-typescript';
+import Button from './components/Button';
 
 function App() {
   const [isSaving, setIsSaving] = useState(false);
+  const [isIntegrated, setIsIntegrated] = useState(false);
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    chrome.cookies.getAll({ domain: 'saveurltodoist.vercel.app' }, function (cookies) {
+      if (cookies) {
+        cookies.forEach((cookie) => {
+          if (cookie.name == 'token') {
+            setToken(cookie.value);
+            setIsIntegrated(true);
+          }
+        });
+      }
+    });
+  }, []);
 
   const addUrlToTodoist = (url: string) => {
-    const api = new TodoistApi('YOUR_TOKEN_HERE');
+    const api = new TodoistApi(token);
 
     api
       .addTask({
@@ -16,7 +32,7 @@ function App() {
       });
   };
 
-  const handleClick = () => {
+  const handleSaveButtonClick = () => {
     setIsSaving(true);
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -28,22 +44,28 @@ function App() {
     });
   };
 
+  const handleConnectButtonClick = () => {
+    chrome.tabs.create({
+      url: 'https://saveurltodoist.vercel.app/integration/authorize',
+    });
+
+    setIsIntegrated(true);
+  };
+
   return (
     <main>
       <div className="w-72 p-5">
-        {isSaving ? (
-          <button className="rounded-full bg-red-300 w-full p-3  text-red-50" disabled>
-            Saving...
-          </button>
+        {isIntegrated ? (
+          isSaving ? (
+            <Button text="Saving..." isDisabled={true} />
+          ) : (
+            <Button text="Save URL to Todoist" eventHandler={handleSaveButtonClick} />
+          )
         ) : (
-          <button
-            className="rounded-full bg-red-500 w-full p-3 hover:bg-red-700 text-red-50"
-            onClick={handleClick}
-          >
-            Save URL to Todoist
-          </button>
+          <Button text="Connect to Todoist" eventHandler={handleConnectButtonClick} />
         )}
       </div>
+      <p>{token}</p>
     </main>
   );
 }

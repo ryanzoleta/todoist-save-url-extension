@@ -13,5 +13,6 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "permissions": ["tabs"]
+  "permissions": ["tabs", "cookies"],
+  "host_permissions": ["*://saveurltodoist.vercel.app/"]
 }
