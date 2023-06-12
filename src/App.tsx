@@ -59,7 +59,7 @@ function App() {
           isSaving ? (
             <Button text="Saving..." isDisabled={true} />
           ) : (
-            <Button text="Save URL to Todoist" eventHandler={handleSaveButtonClick} />
+            <Button text="Save URL to Todoist" eventHandler={handleSaveButtonClick} isPrimary />
           )
         ) : (
           <Button text="Connect to Todoist" eventHandler={handleConnectButtonClick} />
