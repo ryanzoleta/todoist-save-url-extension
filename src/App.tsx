@@ -4,7 +4,6 @@ import Button from './components/Button';
 
 function App() {
   const [isSaving, setIsSaving] = useState(false);
-  const [isIntegrated, setIsIntegrated] = useState(false);
   const [token, setToken] = useState('');
 
   useEffect(() => {
@@ -13,7 +12,6 @@ function App() {
         cookies.forEach((cookie) => {
           if (cookie.name == 'token') {
             setToken(cookie.value);
-            setIsIntegrated(true);
           }
         });
       }
@@ -52,7 +50,6 @@ function App() {
 
   const handleLogoutButtonClick = () => {
     chrome.cookies.remove({ url: 'https://saveurltodoist.vercel.app', name: 'token' });
-    setIsIntegrated(false);
     setToken('');
   };
 
@@ -66,7 +63,7 @@ function App() {
     <main>
       <div className="w-72 p-5">
         <div className="mb-3">
-          {isIntegrated ? (
+          {token ? (
             isSaving ? (
               <Button text="Saving..." isDisabled={true} />
             ) : (
@@ -79,7 +76,7 @@ function App() {
           )}
         </div>
         <div className="flex w-full justify-center gap-x-4">
-          {isIntegrated ? (
+          {token ? (
             <div>
               <button
                 onClick={handleLogoutButtonClick}
