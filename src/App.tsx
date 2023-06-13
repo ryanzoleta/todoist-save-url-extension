@@ -48,8 +48,6 @@ function App() {
     chrome.tabs.create({
       url: 'https://saveurltodoist.vercel.app/integration/authorize',
     });
-
-    setIsIntegrated(true);
   };
 
   const handleLogoutButtonClick = () => {
@@ -58,25 +56,49 @@ function App() {
     setToken('');
   };
 
+  const handleGitHubLinkClick = () => {
+    chrome.tabs.create({
+      url: 'https://github.com/ryanarnold/todoist-save-url-extension',
+    });
+  };
+
   return (
     <main>
       <div className="w-72 p-5">
-        {isIntegrated ? (
-          isSaving ? (
-            <Button text="Saving..." isDisabled={true} />
-          ) : (
-            <div>
-              <div className="mb-3">
+        <div className="mb-3">
+          {isIntegrated ? (
+            isSaving ? (
+              <Button text="Saving..." isDisabled={true} />
+            ) : (
+              <div>
                 <Button text="Save URL to Todoist" eventHandler={handleSaveButtonClick} isPrimary />
               </div>
-              <div>
-                <Button text="Logout" eventHandler={handleLogoutButtonClick} />
-              </div>
+            )
+          ) : (
+            <Button text="Connect to Todoist" eventHandler={handleConnectButtonClick} />
+          )}
+        </div>
+        <div className="flex w-full justify-center gap-x-4">
+          {isIntegrated ? (
+            <div>
+              <button
+                onClick={handleLogoutButtonClick}
+                className="text-center text-gray-600 hover:underline"
+              >
+                Logout
+              </button>
             </div>
-          )
-        ) : (
-          <Button text="Connect to Todoist" eventHandler={handleConnectButtonClick} />
-        )}
+          ) : null}
+
+          <div>
+            <button
+              onClick={handleGitHubLinkClick}
+              className="text-center text-gray-600 hover:underline"
+            >
+              GitHub
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   );
